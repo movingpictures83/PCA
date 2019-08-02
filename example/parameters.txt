@@ -1,0 +1,6 @@
+input1	/biorg/data/Smoking/Never/Never.metabolite.normabund.csv
+input2	/biorg/data/Alpha1/zr1429.metabolites.normabund.csv
+plotdata	plot.csv
+rotationdata	rotation.csv
+varianceplot	plots.pdf
+PCAplot	PCA.pdf

@@ -1,0 +1,2 @@
+Prefix plugins/PCA/example/
+Plugin PCA inputfile parameters.txt outputfile PCAResults
