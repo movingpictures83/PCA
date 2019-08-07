@@ -8,9 +8,9 @@ PluMA plugin to run Principal Component Analysis (Pearson, 1901) to determine, g
 two sets of data and the values of multiple observables in each set, how well the
 two sets can be separated based on these values.
 
-The plugin expects as input a text file with two key, value pairs.  The keys are
+The plugin expects as input a text file two key, value pairs.  Two of the keys are
 "input1" and "input2", and both should map to a CSV file with data set 1 and data set 2,
-respectively.
+respectively.  The third is "groups", which should be set to true if there are multiple groups of data
 
 The plugin accepts a "prefix" as an "outputfile" and will generate three output files:
 1. (prefix).plotdata.csv -> Data for the PCA plot, in tabular format
