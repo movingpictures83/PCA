@@ -1,7 +1,3 @@
 input1	plugins/PCA/example/healthy.csv	
 input2	plugins/PCA/example/diseased.csv
-plotdata	plot.csv
-rotationdata	rotation.csv
-varianceplot	plots.pdf
-PCAplot	PCA.pdf
 groups	true
