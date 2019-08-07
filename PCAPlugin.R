@@ -45,15 +45,28 @@ output <- function(outputfile) {
 
    dpi=600
    pdf(file=paste(outputfile, ".graph.pdf", sep=""))
-   g <- ggbiplot(data.pca, obs.scale = 1, var.scale = 1,
-              ellipse = TRUE, ellipse.prob = 0.80, groups=group,
-              labels = names_t, 
-              circle = FALSE, var.axes=FALSE, alpha=0)
-   g <- g + geom_point(aes(shape=groups,colour=groups),size = 4)
-   g <- g + theme(legend.direction = 'horizontal', 
-               legend.position = 'top')
-   g <- g + scale_color_manual(name='Class', values=c('#9900ff','#0000ff','#009933', '#000000', '#ff0000'))
-   g <- g + scale_shape(name='Class')
-   print(g);
+   if (toString(parameters["groups",2]) == "true") {
+    print("True");
+    g <- ggbiplot(data.pca, obs.scale = 1, var.scale = 1,
+               ellipse = TRUE, ellipse.prob = 0.80, groups=group,
+               labels = names_t, 
+               circle = FALSE, var.axes=FALSE, alpha=0)
+    g <- g + geom_point(aes(shape=groups,colour=groups),size = 4)
+    g <- g + theme(legend.direction = 'horizontal', 
+                legend.position = 'top')
+    g <- g + scale_color_manual(name='Class', values=c('#9900ff','#0000ff','#009933', '#000000', '#ff0000'))
+    g <- g + scale_shape(name='Class')
+   } 
+   else {
+      print("False");
+      plot.new()
+      b <- data.pca$rotation[2,"PC1"] / data.pca$rotation[1,"PC1"]
+      a <- data.pca$center[2] - (b*data.pca$center[1])
+      abline(a,b,col="red");
+
+      b2 <- pcatest2$rotation[1,"PC2"] / pcatest2$rotation[2,"PC2"]
+      a2 <- pcatest2$center[2] - (b2*pcatest2$center[1])
+      abline(a2,b2,col="blue")
+   }
    dev.off();
 }

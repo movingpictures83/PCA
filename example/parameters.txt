@@ -4,3 +4,4 @@ plotdata	plot.csv
 rotationdata	rotation.csv
 varianceplot	plots.pdf
 PCAplot	PCA.pdf
+groups	true
