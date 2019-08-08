@@ -49,9 +49,9 @@ output <- function(outputfile) {
    write.csv(data.pca$rotation, file=paste(outputfile, ".rotation.csv", sep=""))
 
    dpi=600
-   pdf(file=paste(outputfile, ".graph.pdf", sep=""))
+   #pdf(file=paste(outputfile, ".graph.pdf", sep=""))
    if (doGroups == "true") {
-    g <- ggbiplot(data.pca, obs.scale = 1, var.scale = 1,
+   g <- ggbiplot(data.pca, obs.scale = 1, var.scale = 1,
                ellipse = TRUE, ellipse.prob = 0.80, groups=group,
                labels = names_t, 
                circle = FALSE, var.axes=FALSE, alpha=0)
@@ -62,14 +62,21 @@ output <- function(outputfile) {
     g <- g + scale_shape(name='Class')
    } 
    else {
-      plot.new()
+   g <- ggbiplot(data.pca)
       b <- data.pca$rotation[2,"PC1"] / data.pca$rotation[1,"PC1"]
-      a <- data.pca$center[2] - (b*data.pca$center[1])
-      abline(a,b,col="red");
+      #plot(0,b);
+      a <- as.numeric(data.pca$center[2]) - (b*as.numeric(data.pca$center[1]))
+      g <- g + geom_abline(slope=a,intercept=b,col="red");
 
       b2 <- data.pca$rotation[1,"PC2"] / data.pca$rotation[2,"PC2"]
-      a2 <- data.pca$center[2] - (b2*data.pca$center[1])
-      abline(a2,b2,col="blue")
+      #plot(0,b2);
+      a2 <- as.numeric(data.pca$center[2]) - (b2*as.numeric(data.pca$center[1]))
+      g <- g + geom_abline(slope=a2,intercept=b2,col="blue")
+      print(b);
+      print(a);
+      print(b2);
+      print(a2);
    }
-   dev.off();
+   ggsave(filename=paste(outputfile, ".graph.pdf", sep=""), plot=g, device="pdf");
+   #dev.off();
 }
