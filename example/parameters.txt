@@ -1,3 +1,2 @@
 input1	plugins/PCA/example/healthy.csv	
 input2	plugins/PCA/example/diseased.csv
-groups	true
