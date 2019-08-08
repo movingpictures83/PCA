@@ -9,10 +9,10 @@ two sets of data and the values of multiple observables in each set, how well th
 two sets can be separated based on these values.
 
 The plugin accepts as input a TXT file with keyword, value pairs.  The keyword
-"inputfile1" should be mapped to the name of the first input datafile (CSV).  If that
+"input1" should be mapped to the name of the first input datafile (CSV).  If that
 is the only specified keyword, the PCA plugin will run on only that dataset.
 
-If an "inputfile2" is specified, PCA will be used to specifically distinguish between
+If an "input2" is specified, PCA will be used to specifically distinguish between
 the two datasets.  The first will be labeled "Healthy" (or control), the second "Diseased".
 
 The plugin accepts a "prefix" as an "outputfile" and will generate three output files:
