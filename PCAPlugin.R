@@ -5,10 +5,9 @@ library(ggbiplot)
 input <- function(inputfile) {
   parameters <<- read.table(inputfile, as.is=T);
   rownames(parameters) <<- parameters[,1]
-
   group <<- c()
   #legend <<- c()
-
+  doGroups <<- "false";
   data1 <<- c()
   data2 <<- c()
   data1 <<- read.csv(toString(parameters["input1",2]), header=T, row.names=1)
@@ -16,10 +15,16 @@ input <- function(inputfile) {
      group <<- rbind(group, "A - Healthy")
      #legend <<- rbind(legend,1)
   }
-  data2 <<- read.csv(toString(parameters["input2",2]), header=T, row.names=1)
-  for (i in 1:nrow(data2)) {
-     group <<- rbind(group, "B - Disease")
-     #legend <<- rbind(legend,1)
+  if (is.na(parameters["input2", 2])) {
+     data_t <<- data.frame(data1);
+  }
+  else {
+     data2 <<- read.csv(toString(parameters["input2",2]), header=T, row.names=1)
+     for (i in 1:nrow(data2)) {
+        group <<- rbind(group, "B - Disease")
+        doGroups <<- "true";
+        #legend <<- rbind(legend,1)
+     }
   }
   data_t <<- data.frame(rbind(data1, data2))
   names_t <<- rownames(data_t)#c()
@@ -45,8 +50,7 @@ output <- function(outputfile) {
 
    dpi=600
    pdf(file=paste(outputfile, ".graph.pdf", sep=""))
-   if (toString(parameters["groups",2]) == "true") {
-    print("True");
+   if (doGroups == "true") {
     g <- ggbiplot(data.pca, obs.scale = 1, var.scale = 1,
                ellipse = TRUE, ellipse.prob = 0.80, groups=group,
                labels = names_t, 
@@ -58,14 +62,13 @@ output <- function(outputfile) {
     g <- g + scale_shape(name='Class')
    } 
    else {
-      print("False");
       plot.new()
       b <- data.pca$rotation[2,"PC1"] / data.pca$rotation[1,"PC1"]
       a <- data.pca$center[2] - (b*data.pca$center[1])
       abline(a,b,col="red");
 
-      b2 <- pcatest2$rotation[1,"PC2"] / pcatest2$rotation[2,"PC2"]
-      a2 <- pcatest2$center[2] - (b2*pcatest2$center[1])
+      b2 <- data.pca$rotation[1,"PC2"] / data.pca$rotation[2,"PC2"]
+      a2 <- data.pca$center[2] - (b2*data.pca$center[1])
       abline(a2,b2,col="blue")
    }
    dev.off();
