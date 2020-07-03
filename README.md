@@ -2,7 +2,8 @@
 # Language: R
 # Input: TXT (key, value pairs)
 # Output: Prefix
-# Tested with: PluMA 1.0, R 3.2.5
+# Tested with: PluMA 1.1, R 4.0.0
+# Dependency: ggbiplot_0.55
 
 PluMA plugin to run Principal Component Analysis (Pearson, 1901) to determine, given
 two sets of data and the values of multiple observables in each set, how well the
