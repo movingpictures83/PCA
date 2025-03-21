@@ -11,8 +11,10 @@ input <- function(inputfile) {
   data1 <<- c()
   data2 <<- c()
   data1 <<- read.csv(toString(parameters["input1",2]), header=T, row.names=1)
+  name1 <<- toString(parameters["name1", 2])
+  name2 <<- toString(parameters["name2", 2])
   for (i in 1:nrow(data1)) {
-     group <<- rbind(group, "A - Healthy")
+     group <<- rbind(group, name1)
      #legend <<- rbind(legend,1)
   }
   if (is.na(parameters["input2", 2])) {
@@ -21,7 +23,7 @@ input <- function(inputfile) {
   else {
      data2 <<- read.csv(toString(parameters["input2",2]), header=T, row.names=1)
      for (i in 1:nrow(data2)) {
-        group <<- rbind(group, "B - Disease")
+        group <<- rbind(group, name2)
         doGroups <<- "true";
         #legend <<- rbind(legend,1)
      }
@@ -50,8 +52,10 @@ output <- function(outputfile) {
 
    dpi=600
    #pdf(file=paste(outputfile, ".graph.pdf", sep=""))
+   print(data.pca)
    if (doGroups == "true") {
-   g <- ggbiplot(data.pca, obs.scale = 1, var.scale = 1,
+   print("FIRST")
+	   g <- ggbiplot(data.pca, obs.scale = 1, var.scale = 1,
                ellipse = TRUE, ellipse.prob = 0.80, groups=group,
                labels = names_t, 
                circle = FALSE, var.axes=FALSE, alpha=0)
@@ -60,6 +64,9 @@ output <- function(outputfile) {
                 legend.position = 'top')
     g <- g + scale_color_manual(name='Class', values=c('#9900ff','#0000ff','#009933', '#000000', '#ff0000'))
     g <- g + scale_shape(name='Class')
+    #g <- g + coord_equal(ratio = 0.5)
+    #g <- g + scale_y_continuous(breaks = seq(-5, 5, len = 0.1))
+    #print(g)
    } 
    else {
    g <- ggbiplot(data.pca)
@@ -77,6 +84,6 @@ output <- function(outputfile) {
       print(b2);
       print(a2);
    }
-   ggsave(filename=paste(outputfile, ".graph.pdf", sep=""), plot=g, device="pdf");
+   ggsave(filename=paste(outputfile, ".graph.pdf", sep=""), plot=g, width=10, dpi=600);
    #dev.off();
 }
